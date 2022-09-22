@@ -1,17 +1,38 @@
 console.log('Conectado...')
 const listaUsuarios = document.getElementById('listaUsuarios')
 const template = document.getElementById('template').content
+const listaTareas = document.getElementById('listaTareas')
+const templateTareas= document.getElementById('templateTareas').content
 const fragment = document.createDocumentFragment()
 let usuarios = []
+let tareas = []
 
 document.addEventListener('DOMContentLoaded', ()=>{
     obtenerDatos()
 })
 
+listaUsuarios.addEventListener('click', e =>{
+    if(e.target.classList.contains('btn')){
+        obtenTareasUsuarios(e.target.dataset.id)
+    }
+    e.stopPropagation()
+})
+
+const obtenTareasUsuarios = id =>{
+    fetch(`https://jsonplaceholder.typicode.com/todos?userId=${id}`)
+    .then(async(res) =>{
+        tareas = await res.json()
+        pintaTareas()
+        console.log('tareas', tareas)
+    })
+    .catch( error =>{
+        console.log(error)
+    })
+}
+
 const obtenerDatos = () =>{
     fetch("https://jsonplaceholder.typicode.com/users")
     .then(async (res) =>{
-       // console.log(await res.json())
        usuarios = await res.json()
        pintaUsuarios()
        console.log('Usuarios', usuarios)
@@ -36,8 +57,23 @@ const pintaUsuarios = () => {
         template.querySelectorAll('h1')[1].textContent = 'Nombre de Compañia: ' + usuario.company.name
         template.querySelectorAll('h2')[9].textContent = 'Tipo de negocio: ' + usuario.company.bs
         template.querySelectorAll('h2')[10].textContent = 'Etiquetas de busqueda: ' + usuario.company.catchPhrase        
+        template.querySelector('.btn').dataset.id = usuario.id
+        
         const clone = template.cloneNode(true)
         fragment.appendChild(clone)
     })
     listaUsuarios.appendChild(fragment)
+}
+
+const pintaTareas = () => {
+    tareas.forEach(tarea =>{
+        document.getElementById("listaTareas").innerHTML = ""
+        templateTareas.querySelectorAll('h1')[0].textContent = 'Titulo de Tarea: ' + tarea.title
+        templateTareas.querySelectorAll('h2')[0].textContent = 'Status: ' + tarea.completed        
+        templateTareas.querySelector('.btn').dataset.id = tarea.id
+        
+        const clone = templateTareas.cloneNode(true)
+        fragment.appendChild(clone)
+    })
+    listaTareas.appendChild(fragment)
 }

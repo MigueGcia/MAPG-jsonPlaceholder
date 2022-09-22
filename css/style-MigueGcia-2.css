@@ -5,21 +5,45 @@ body {
 }
 
 .contenedor {
-    margin: 5%;
+    margin: 2%;
     height: 100%!important;
-    width: 100%;
-    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 #listaUsuarios {
+    width: 50%;
+}
+
+#listaTareas {
+    width: 50%;
 
 }
 
 .tarjeta {
-    width: 100%;
-    background-color: chartreuse;
-    border: 1px solid darkred;
+    width: 95%;
+    background-color: rgb(228, 125, 8);
+    border: 2px solid darkred;
     border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.btn {
     margin: 10px;
-    padding: 10px;
+    width: 100px;
+    height: 40px;
+    background-color: green;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: white;
+    color: green;
 }
